@@ -6,7 +6,7 @@ using namespace std::chrono_literals;
 namespace composition {
 
 TurtleClearer::TurtleClearer(const rclcpp::NodeOptions &options) : Node("turtle_clearer", options) {
-    client = this->create_client<turtlesim::srv::Kill>("/clear");
+    client = this->create_client<turtlesim::srv::Kill>("/kill");
 
     clear_turtle();
 }
@@ -22,6 +22,7 @@ void TurtleClearer::clear_turtle() {
     for (std::string &name : turtle_names) {
         auto request = std::make_shared<turtlesim::srv::Kill::Request>();
         request->name = name;
+        RCLCPP_INFO(this->get_logger(), "%s", request->name.c_str());
         auto result = client->async_send_request(request);
         if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), result) == rclcpp::FutureReturnCode::SUCCESS) {
             RCLCPP_INFO(this->get_logger(), "Successfully cleared turtle");
