@@ -25,9 +25,9 @@ void TurtleClearer::clear_turtle() {
         RCLCPP_INFO(this->get_logger(), "%s", request->name.c_str());
         auto result = client->async_send_request(request);
         if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), result) == rclcpp::FutureReturnCode::SUCCESS) {
-            RCLCPP_INFO(this->get_logger(), "Successfully cleared turtle");
+            RCLCPP_INFO(this->get_logger(), "Successfully cleared %s", name.c_str());
         } else {
-            RCLCPP_ERROR(this->get_logger(), "Failed to clear turtle");
+            RCLCPP_ERROR(this->get_logger(), "Failed to clear %s", name.c_str());
         }
     }
 }

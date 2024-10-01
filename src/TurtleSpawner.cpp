@@ -28,9 +28,9 @@ void TurtleSpawner::spawn_turtle() {
 
         auto result = client->async_send_request(request);
         if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), result) == rclcpp::FutureReturnCode::SUCCESS) {
-            RCLCPP_INFO(this->get_logger(), "Successfully spawned");
+            RCLCPP_INFO(this->get_logger(), "Successfully spawned %s", t.name.c_str());
         } else {
-            RCLCPP_ERROR(this->get_logger(), "Failed to spawn");
+            RCLCPP_ERROR(this->get_logger(), "Failed to spawn %s", t.name.c_str());
         }
     }
 }
