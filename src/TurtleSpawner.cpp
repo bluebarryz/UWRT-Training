@@ -33,7 +33,6 @@ void TurtleSpawner::spawn_turtle() {
             RCLCPP_ERROR(this->get_logger(), "Failed to spawn");
         }
     }
-
 }
 } // namespace composition
 

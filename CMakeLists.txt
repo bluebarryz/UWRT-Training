@@ -16,29 +16,25 @@ find_package(rclcpp_components REQUIRED)
 # turtle_spawn component
 add_library(turtle_spawn SHARED src/TurtleSpawner.cpp)
 ament_target_dependencies(turtle_spawn rclcpp rclcpp_components turtlesim)
-rclcpp_components_register_node(turtle_spawn
+rclcpp_components_register_node(
+  turtle_spawn
   PLUGIN "composition::TurtleSpawner"
   EXECUTABLE turtle_spawn_node
 )
 
-# Create an executable
-add_executable(turtle_spawn_executable src/main.cpp)
-
-# Link the turtle_spawn library with the executable
-target_link_libraries(turtle_spawn_executable
-  turtle_spawn
-)
-
-# Specify dependencies for the executable
-ament_target_dependencies(turtle_spawn_executable
-  rclcpp
-  rclcpp_components
+# turtle_clear component
+add_library(turtle_clear SHARED src/TurtleClearer.cpp)
+ament_target_dependencies(turtle_clear rclcpp rclcpp_components turtlesim)
+rclcpp_components_register_node(
+  turtle_clear
+  PLUGIN "composition::TurtleClearer"
+  EXECUTABLE turtle_clear_node
 )
 
 # Install targets
 install(TARGETS
-  turtle_spawn_executable
   turtle_spawn
-  DESTINATION lib/${PROJECT_NAME})
+  turtle_clear
+  DESTINATION lib)
 
 ament_package()
