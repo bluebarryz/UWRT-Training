@@ -12,6 +12,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(turtlesim REQUIRED)
 find_package(rclcpp_components REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 # turtle_spawn component
 add_library(turtle_spawn SHARED src/TurtleSpawner.cpp)
@@ -31,10 +32,19 @@ rclcpp_components_register_node(
   EXECUTABLE turtle_clear_node
 )
 
+# circular_motion component
+add_library(circular_motion SHARED src/CircularMotion.cpp)
+ament_target_dependencies(circular_motion rclcpp rclcpp_components geometry_msgs)
+rclcpp_components_register_nodes(
+  circular_motion
+  "composition::CircularMotion"
+)
+
 # Install targets
 install(TARGETS
   turtle_spawn
   turtle_clear
+  circular_motion
   DESTINATION lib)
 
 ament_package()

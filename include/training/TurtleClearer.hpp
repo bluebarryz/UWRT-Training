@@ -9,7 +9,7 @@ namespace composition {
 
 class TurtleClearer : public rclcpp::Node {
 public:
-    TurtleClearer(const rclcpp::NodeOptions &options);
+    explicit TurtleClearer(const rclcpp::NodeOptions &options);
 private:
     void clear_turtle();
     rclcpp::Client<turtlesim::srv::Kill>::SharedPtr client;
