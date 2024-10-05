@@ -13,6 +13,15 @@ find_package(rclcpp REQUIRED)
 find_package(turtlesim REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+	"msg/TurtleDist.msg"
+	DEPENDENCIES builtin_interfaces
+	)
+ament_export_dependencies(rosidl_default_runtime)
 
 # turtle_spawn component
 add_library(turtle_spawn SHARED src/TurtleSpawner.cpp)
@@ -40,11 +49,29 @@ rclcpp_components_register_nodes(
   "composition::CircularMotion"
 )
 
+# dist_publisher component
+add_library(dist_publisher SHARED
+  src/DistancePublisher.cpp
+)
+ament_target_dependencies(dist_publisher
+  rclcpp
+  rclcpp_components
+  turtlesim
+)
+rosidl_target_interfaces(dist_publisher ${PROJECT_NAME} "rosidl_typesupport_cpp")
+rclcpp_components_register_nodes(dist_publisher "composition::DistancePublisher")
+
+
+
 # Install targets
 install(TARGETS
   turtle_spawn
   turtle_clear
   circular_motion
-  DESTINATION lib)
+  dist_publisher
+  ARCHIVE DESTINATION lib
+	LIBRARY DESTINATION lib 
+	RUNTIME DESTINATION bin)
+
 
 ament_package()
