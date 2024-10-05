@@ -21,6 +21,8 @@ private:
     float x_moving_turt;
     float y_moving_turt;
 
+    rclcpp::TimerBase::SharedPtr timer;
+
     void compute_and_publish_distance();
 };
 
