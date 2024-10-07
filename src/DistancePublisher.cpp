@@ -1,4 +1,5 @@
 #include <training/DistancePublisher.hpp>
+#include <cmath>
 
 using namespace std::chrono_literals;
 
