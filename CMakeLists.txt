@@ -22,6 +22,7 @@ find_package(rclcpp_action REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
 	"msg/TurtleDist.msg"
   "action/Move.action"
+  "srv/Reset.srv"
 	DEPENDENCIES builtin_interfaces geometry_msgs std_msgs
 	)
 ament_export_dependencies(rosidl_default_runtime)
@@ -82,6 +83,20 @@ rosidl_target_interfaces(turtle_move ${PROJECT_NAME} "rosidl_typesupport_cpp") #
 # with this we can exexute the component as a node - ros2 run training moving_action_server
 rclcpp_components_register_node(turtle_move PLUGIN "composition::TurtleMover" EXECUTABLE moving_action_server)
 
+# turtle_reset component
+add_library(turtle_reset SHARED
+	src/TurtleReset.cpp)
+target_compile_definitions(turtle_reset
+	PRIVATE "COMPOSITION_BUILDING_DLL"
+)
+ament_target_dependencies(turtle_reset
+	"rclcpp"
+	"rclcpp_components"
+	"turtlesim"
+	"turtlesim"
+	"std_msgs")
+rosidl_target_interfaces(turtle_reset ${PROJECT_NAME} "rosidl_typesupport_cpp") # need for custom srv
+rclcpp_components_register_nodes(turtle_reset "composition::TurtleReset")
 
 
 # Install targets
@@ -91,6 +106,7 @@ install(TARGETS
   circular_motion
   dist_publisher
   turtle_move
+  turtle_reset
   ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib 
 	RUNTIME DESTINATION bin)
