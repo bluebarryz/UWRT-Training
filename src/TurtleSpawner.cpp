@@ -1,4 +1,5 @@
 #include "training/TurtleSpawner.hpp"
+#include "training/Constants.hpp"
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -24,7 +25,7 @@ void TurtleSpawner::spawn_turtle(const std::shared_ptr<training::srv::Reset::Req
         RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "service not available, waiting again...");
     }
 
-    for (const turtle_info& t : turtle_bio) {
+    for (const Constants::turtle_info& t : Constants::turtle_bio) {
         auto request = std::make_shared<turtlesim::srv::Spawn::Request>();
         request->name = t.name;
         request->x = t.x_pos;
@@ -32,11 +33,6 @@ void TurtleSpawner::spawn_turtle(const std::shared_ptr<training::srv::Reset::Req
         request->theta = t.rad;
 
         auto result = client->async_send_request(request);
-        // if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), result) == rclcpp::FutureReturnCode::SUCCESS) {
-        //     RCLCPP_INFO(this->get_logger(), "Successfully spawned %s", t.name.c_str());
-        // } else {
-        //     RCLCPP_ERROR(this->get_logger(), "Failed to spawn %s", t.name.c_str());
-        // }
     }
 
     response->success = true;

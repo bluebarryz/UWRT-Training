@@ -1,4 +1,5 @@
 #include "training/TurtleReset.hpp"
+#include "training/Constants.hpp"
 #include <chrono>
 
 using namespace std::chrono_literals;
@@ -26,8 +27,9 @@ void TurtleReset::reset_turtle(const std::shared_ptr<training::srv::Reset::Reque
     }
 
     auto reset_request = std::make_shared<turtlesim::srv::TeleportAbsolute::Request>();
-    reset_request->x = 25;
-    reset_request->y = 10;
+    const Constants::turtle_info& moving_turtle_bio = Constants::turtle_bio[1]; 
+    reset_request->x = moving_turtle_bio.x_pos;
+    reset_request->y = moving_turtle_bio.y_pos;
     reset_request->theta = 0;
 
     auto result = client->async_send_request(reset_request);

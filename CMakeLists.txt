@@ -28,7 +28,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 ament_export_dependencies(rosidl_default_runtime)
 
 # turtle_spawn component
-add_library(turtle_spawn SHARED src/TurtleSpawner.cpp)
+add_library(turtle_spawn SHARED src/TurtleSpawner.cpp src/Constants.cpp)
 target_compile_definitions(turtle_spawn
 	PRIVATE "COMPOSITION_BUILDING_DLL"
 )
@@ -92,8 +92,7 @@ rosidl_target_interfaces(turtle_move ${PROJECT_NAME} "rosidl_typesupport_cpp") #
 rclcpp_components_register_node(turtle_move PLUGIN "composition::TurtleMover" EXECUTABLE moving_action_server)
 
 # turtle_reset component
-add_library(turtle_reset SHARED
-	src/TurtleReset.cpp)
+add_library(turtle_reset SHARED src/TurtleReset.cpp src/Constants.cpp)
 target_compile_definitions(turtle_reset
 	PRIVATE "COMPOSITION_BUILDING_DLL"
 )
