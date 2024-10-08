@@ -38,12 +38,12 @@ rclcpp_components_register_node(
 
 # turtle_clear component
 add_library(turtle_clear SHARED src/TurtleClearer.cpp)
-ament_target_dependencies(turtle_clear rclcpp rclcpp_components turtlesim)
-rclcpp_components_register_node(
-  turtle_clear
-  PLUGIN "composition::TurtleClearer"
-  EXECUTABLE turtle_clear_node
+target_compile_definitions(turtle_clear
+	PRIVATE "COMPOSITION_BUILDING_DLL"
 )
+ament_target_dependencies(turtle_clear rclcpp rclcpp_components turtlesim)
+rosidl_target_interfaces(turtle_clear ${PROJECT_NAME} "rosidl_typesupport_cpp") # need for custom srv
+rclcpp_components_register_nodes(turtle_clear "composition::TurtleClearer")
 
 # circular_motion component
 add_library(circular_motion SHARED src/CircularMotion.cpp)
@@ -92,7 +92,6 @@ target_compile_definitions(turtle_reset
 ament_target_dependencies(turtle_reset
 	"rclcpp"
 	"rclcpp_components"
-	"turtlesim"
 	"turtlesim"
 	"std_msgs")
 rosidl_target_interfaces(turtle_reset ${PROJECT_NAME} "rosidl_typesupport_cpp") # need for custom srv
