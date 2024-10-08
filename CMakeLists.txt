@@ -29,7 +29,11 @@ ament_export_dependencies(rosidl_default_runtime)
 
 # turtle_spawn component
 add_library(turtle_spawn SHARED src/TurtleSpawner.cpp)
+target_compile_definitions(turtle_spawn
+	PRIVATE "COMPOSITION_BUILDING_DLL"
+)
 ament_target_dependencies(turtle_spawn rclcpp rclcpp_components turtlesim)
+rosidl_target_interfaces(turtle_spawn ${PROJECT_NAME} "rosidl_typesupport_cpp") # need for custom srv
 rclcpp_components_register_node(
   turtle_spawn
   PLUGIN "composition::TurtleSpawner"
@@ -47,7 +51,11 @@ rclcpp_components_register_nodes(turtle_clear "composition::TurtleClearer")
 
 # circular_motion component
 add_library(circular_motion SHARED src/CircularMotion.cpp)
+target_compile_definitions(circular_motion
+	PRIVATE "COMPOSITION_BUILDING_DLL"
+)
 ament_target_dependencies(circular_motion rclcpp rclcpp_components geometry_msgs)
+rosidl_target_interfaces(circular_motion ${PROJECT_NAME} "rosidl_typesupport_cpp") # need for custom srv
 rclcpp_components_register_nodes(
   circular_motion
   "composition::CircularMotion"
