@@ -5,7 +5,7 @@ using namespace std::chrono_literals;
 
 namespace composition {
 
-DistancePublisher::DistancePublisher(const rclcpp::NodeOptions &options) : Node("circular_motion_publisher", options) {
+DistancePublisher::DistancePublisher(const rclcpp::NodeOptions &options) : Node("dist_publisher", options) {
 	publisher = this->create_publisher<training::msg::TurtleDist>(
 	"/distance", 10);
 
